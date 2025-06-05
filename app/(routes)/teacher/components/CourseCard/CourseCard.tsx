@@ -1,9 +1,24 @@
+"use client";
+
 import Image from "next/image";
-import { DollarSign } from "lucide-react";
-import type { CourseCardProps } from "./CourseCard.types";
+import { Course } from "@prisma/client";
+import { DollarSign, BarChart3 } from "lucide-react";
+import { Actions } from "./Actions";
+
+interface CourseCardProps {
+    course: Course;
+}
 
 export function CourseCard({ course }: CourseCardProps) {
-    const { title, price, imageUrl, description, isPublished } = course;
+    const {
+        id,
+        title,
+        price,
+        level,
+        imageUrl,
+        isPublished,
+        description
+    } = course;
 
     return (
         <div className="relative">
@@ -25,7 +40,7 @@ export function CourseCard({ course }: CourseCardProps) {
                                     Publicado
                                 </span>
                             ) : (
-                                <span className="inline-block bg-gray-100 text-gray-600 text-xs font-medium px-2 py-1 rounded-md mt-1">
+                                <span className="inline-block bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1 rounded-md mt-1">
                                     Sin publicar
                                 </span>
                             )}
@@ -36,16 +51,24 @@ export function CourseCard({ course }: CourseCardProps) {
                                 {description}
                             </p>
                         )}
+
+                        <div className="flex flex-col md:flex-row gap-4 items-center mt-2">
+                            <div className="flex gap-1 items-center text-sm">
+                                <DollarSign className="w-4 h-4 text-gray-400" />
+                                <span className="text-gray-400">Precio:</span>
+                                <span className="font-semibold">{price || 0}</span>
+                            </div>
+
+                            <div className="flex gap-1 items-center text-sm">
+                                <BarChart3 className="w-4 h-4 text-gray-800" />
+                                <span className="text-gray-500">Nivel:</span>
+                                <span>{level || "Principiante"}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-4 items-center">
-                    <div className="flex gap-1 items-center text-sm mt-2">
-                        <DollarSign className="w-4 h-4 text-gray-400" />
-                        <span className="text-gray-400">Precio:</span>
-                        <span className="font-semibold">{price ?? 0}</span>
-                    </div>
-                </div>
+                <Actions courseId={id} />
             </div>
         </div>
     );
