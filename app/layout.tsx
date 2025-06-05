@@ -5,6 +5,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/app/(routes)/(root)/components/AppSidebar/AppSidebar";
+import { Navbar } from "@/components/shared";
 import React from "react";
 
 const spaceGrotesk = Space_Grotesk({
@@ -27,9 +28,15 @@ export default function RootLayout({
       <html lang="en" className={spaceGrotesk.variable}>
         <body className="antialiased">
           <SidebarProvider>
-            <div className="flex min-h-screen">
-              <AppSidebar />
-              <main className="flex-1 p-4">{children}</main>
+            <div className="flex flex-col w-full min-h-screen bg-stone-100">
+              {/* Top Navbar */}
+              <Navbar />
+
+              {/* Lado esquerdo: Sidebar + conteúdo */}
+              <div className="flex flex-1">
+                <AppSidebar />
+                <main className="flex-1 p-4">{children}</main>
+              </div>
             </div>
           </SidebarProvider>
         </body>
