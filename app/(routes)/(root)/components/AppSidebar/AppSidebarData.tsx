@@ -3,6 +3,8 @@ import {
     BookOpen,
     Settings2,
     SquareTerminal,
+    GraduationCap,
+    AreaChart,
 } from "lucide-react";
 
 export const routes = [
@@ -25,6 +27,19 @@ export const routes = [
         title: "Ajustes",
         url: "/settings",
         icon: Settings2,
+    },
+];
+
+export const routesTeacher = [
+    {
+        title: "Cursos",
+        url: "/teacher",
+        icon: GraduationCap,
+    },
+    {
+        title: "Analytics",
+        url: "/teacher/analytics",
+        icon: AreaChart,
     },
 ];
   
