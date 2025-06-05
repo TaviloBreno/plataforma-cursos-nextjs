@@ -1,6 +1,7 @@
 import { currentUser } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 import { Header } from "./components/Header/Header";
+import { ListCourses } from "./components/ListCourses";
 
 export default async function TeacherPage() {
     const user = await currentUser();
@@ -20,7 +21,7 @@ export default async function TeacherPage() {
     return (
         <div>
             <Header />
-            {/* Em breve: listagem de cursos */}
+            <ListCourses courses={courses} />
         </div>
     );
 }
