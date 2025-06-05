@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
-import prismadb from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export async function POST(request: Request) {
   try {
@@ -10,20 +10,20 @@ export async function POST(request: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { courseName, slug, category } = await request.json();
+    const { courseName, slug } = await request.json();
 
-    const course = await prismadb.course.create({
+    const course = await prisma.course.create({
       data: {
-        userId: user.id,
         title: courseName,
         slug,
-        category, 
+        userId: user.id,
+        category: "", // ou algum valor default se o campo for obrigatório
       },
     });
 
     return NextResponse.json(course);
   } catch (error) {
-    console.error("[COURSE_POST]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    console.error("[COURSE_CREATE]", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/app/(routes)/(root)/components/AppSidebar/AppSidebar";
 import { Navbar, Footer } from "@/components/shared";
+import { Toaster } from "@/components/ui/sonner";
 import React from "react";
 
 const spaceGrotesk = Space_Grotesk({
@@ -27,6 +28,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" className={spaceGrotesk.variable}>
         <body className="antialiased">
+          {/* Toaster deve estar fora do provedor de contexto de UI */}
+          <Toaster />
+
           <SidebarProvider>
             <div className="flex flex-col w-full min-h-screen bg-stone-100">
               <Navbar />

@@ -8,22 +8,28 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { formSchema } from "./FormCreateCourse.form";
 import { z } from "zod";
+import { toast } from "sonner"; // Supondo que está usando 'sonner' para feedback
+import { useRouter } from "next/navigation";
 
 export function FormCreateCourse() {
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             courseName: "",
-            slug: ""
-        }
+            slug: "",
+        },
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post("/api/course", values);
-            console.log("Resposta da API:", response.data);
+            toast.success("Curso criado com sucesso 🎉");
+            router.push(`/teacher/${response.data.id}`);
         } catch (error) {
             console.error("Erro ao criar curso:", error);
+            toast.error("Erro ao criar o curso 🚨");
         }
     };
 
