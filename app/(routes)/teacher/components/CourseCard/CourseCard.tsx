@@ -25,7 +25,7 @@ export function CourseCard({ course }: CourseCardProps) {
             <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
                 <div className="flex flex-col md:flex-row gap-4 items-start">
                     <Image
-                        src={imageUrl || "/default-image-course.jpg"}
+                        src={imageUrl || "/placeholder.png"}
                         alt="Curso"
                         width={150}
                         height={150}

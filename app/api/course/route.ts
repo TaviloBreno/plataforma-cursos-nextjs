@@ -17,7 +17,7 @@ export async function POST(request: Request) {
         title: courseName,
         slug,
         userId: user.id,
-        category: "", // ou algum valor default se o campo for obrigatório
+        category: "",
       },
     });
 
