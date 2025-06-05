@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -15,74 +14,74 @@ datasource db {
 }
 
 model Course {
-  id          String   @id @default(uuid())
+  id          String     @id @default(uuid())
   userId      String
-  title       String   @db.Text
-  slug        String   @unique @db.Text
-  description String?  @db.Text
-  imageUrl    String?  @db.Text
+  title       String     @db.Text
+  slug        String     @unique @db.Text
+  description String?    @db.Text
+  imageUrl    String?    @db.Text
   price       Float?
-  isPublished Boolean  @default(false)
-  level       String?  @db.Text
-  category    String?  @db.Text
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  isPublished Boolean    @default(false)
+  level       String?    @db.Text
+  category    String     @db.Text
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
   chapters    Chapter[]
   purchases   Purchase[]
 }
 
+// Modelo de capítulos do curso
 model Chapter {
-  id          String          @id @default(uuid())
-  title       String
-  description String?         @db.Text
-  videoUrl    String          @db.Text
-  position    Int
-  isPublished Boolean         @default(false)
-  isFree      Boolean         @default(false)
-  courseId    String
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-
+  id           String         @id @default(uuid())
+  title        String
+  description  String?        @db.Text
+  videoUrl     String         @db.Text
+  position     Int
+  isPublished  Boolean        @default(false)
+  isFree       Boolean        @default(false)
+  courseId     String
   course       Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
   userProgress UserProgress[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 
   @@index([courseId])
 }
 
+// Progresso do usuário em capítulos
 model UserProgress {
   id         String   @id @default(uuid())
   userId     String
   chapterId  String
+  chapter    Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   isCompleted Boolean @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-
-  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
   @@unique([userId, chapterId])
   @@index([chapterId])
 }
 
+// Compras de cursos
 model Purchase {
   id        String   @id @default(uuid())
   userId    String
   courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   price     Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@unique([userId, courseId])
   @@index([courseId])
 }
 
+// Cliente da Stripe vinculado ao usuário
 model StripeCustomer {
-  id                String   @id @default(uuid())
-  userId            String
-  stripeCustomerId  String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id               String   @id @default(uuid())
+  userId           String
+  stripeCustomerId String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
-

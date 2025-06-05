@@ -1,22 +1,26 @@
 import { currentUser } from "@clerk/nextjs/server";
-import prismadb from "@/lib/prisma";
+import prisma from "@/lib/prisma";
+import { Header } from "./components/Header/Header";
 
 export default async function TeacherPage() {
     const user = await currentUser();
 
-    if (!user) return <p>Not signed in</p>;
+    if (!user) {
+        return <p>Not signed in</p>;
+    }
 
-    const courses = await prismadb.course.findMany({
+    const courses = await prisma.course.findMany({
         where: {
-            userId: user.id
-        }
+            userId: user.id,
+        },
     });
 
     console.log(courses);
 
     return (
         <div>
-            <h1>Teacher Page</h1>
+            <Header />
+            {/* Em breve: listagem de cursos */}
         </div>
     );
 }
