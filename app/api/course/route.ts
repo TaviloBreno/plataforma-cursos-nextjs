@@ -18,6 +18,7 @@ export async function POST(request: Request) {
         slug,
         userId: user.id,
         category: "",
+        imageUrl: "/img/curso.png",
       },
     });
 

@@ -10,6 +10,7 @@ interface CourseCardProps {
 }
 
 export function CourseCard({ course }: CourseCardProps) {
+    console.log("Dados do curso:", course);
     const {
         id,
         title,
@@ -25,7 +26,7 @@ export function CourseCard({ course }: CourseCardProps) {
             <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
                 <div className="flex flex-col md:flex-row gap-4 items-start">
                     <Image
-                        src={imageUrl || "/placeholder.png"}
+                        src={imageUrl || "/img/curso.png"}
                         alt="Curso"
                         width={150}
                         height={150}
