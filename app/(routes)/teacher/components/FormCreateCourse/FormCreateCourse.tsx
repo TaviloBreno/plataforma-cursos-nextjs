@@ -2,26 +2,30 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import axios from "axios";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { formSchema } from "./FormCreateCourse.form";
 import { z } from "zod";
 
-type FormValues = z.infer<typeof formSchema>;
-
 export function FormCreateCourse() {
-    const form = useForm<FormValues>({
+    const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             courseName: "",
-            slug: "",
-        },
+            slug: ""
+        }
     });
 
-    function onSubmit(values: FormValues) {
-        console.log("Form Values:", values);
-    }
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        try {
+            const response = await axios.post("/api/course", values);
+            console.log("Resposta da API:", response.data);
+        } catch (error) {
+            console.error("Erro ao criar curso:", error);
+        }
+    };
 
     return (
         <Form {...form}>
@@ -31,9 +35,9 @@ export function FormCreateCourse() {
                     name="courseName"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Nome do curso</FormLabel>
+                            <FormLabel>Nome do Curso</FormLabel>
                             <FormControl>
-                                <Input placeholder="Curso de React JS" {...field} />
+                                <Input placeholder="Curso de ReactJS" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -45,18 +49,16 @@ export function FormCreateCourse() {
                     name="slug"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Slug do curso</FormLabel>
+                            <FormLabel>Slug do Curso</FormLabel>
                             <FormControl>
-                                <Input placeholder="curso-react-js" {...field} />
+                                <Input placeholder="curso-reactjs" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
 
-                <Button type="submit" className="mt-4">
-                    Criar curso
-                </Button>
+                <Button type="submit">Criar Curso</Button>
             </form>
         </Form>
     );
